@@ -149,7 +149,7 @@ But what if you want to use that scope for every single call?
 I have the answer - use <code>default_scope</code>!
 </p>
 <p>
-If an object is always going to load its child records, for example posts with included comments, a default_scope can be setup on the model. Then every query will be ready for loading
+If an object is always going to load its child records, for example posts with included comments, a <code>default_scope</code> can be setup on the model. Then every query will be ready for loading
  the children.
 Continuing with our previous example, I suppose we always want the comments for a post to be loaded. Instead of having to remember to add <code>include: :comments</code> to all finder calls add the
  following to the Post model:
