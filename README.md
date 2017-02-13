@@ -80,9 +80,10 @@ In fact, each query takes longer to process.
 <p>
 Third way to reduce the total time of a request is to use select or pluck methods for taking only needed fields. Select is a pretty useful method and I guess all readers know how it works,
  but anyway I’d like to show you what it must return
- </p>
+</p>
+
 ```
-:001> Post.select(:titile, :created_at)
+:001> Post.select(:title, :created_at)
     Post Load (0.4ms)  SELECT  "posts"."title", "posts"."created_at"  FROM "posts"
 => #<ActiveRecord::Relation  [#<Post id: nil, title: "New Post", created_at: created_at: "2017-01-21 10:13:13">, <Post id: nil, title: "Ruby Cool", created_at: created_at: "2017-01-21 10:16:16" >]>
 ```
