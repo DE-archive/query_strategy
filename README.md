@@ -156,14 +156,14 @@ Continuing with our previous example, I suppose we always want the comments for 
  </p>
 
 ```ruby
-class Post < ActiveRecord::Base
-    has_many :comments
-    belongs_to: user
+    class Post < ActiveRecord::Base
+        has_many :comments
+        belongs_to: user
 
-    scope :nice, -> { where("upvotes > ?", 5) }
+        scope :nice, -> { where("upvotes > ?", 5) }
 
-    default_scope include: {comments: :approval}
-end
+        default_scope include: {comments: :approval}
+    end
 ```
 
 <p>
