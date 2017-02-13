@@ -121,6 +121,7 @@ covered such as where, joins and includes. All scope methods will return an Acti
 <p>
 Declaration scopes happen in the Model, just like that
 </p>
+
 ```ruby
 class Post < ActiveRecord::Base
     has_many :comments
@@ -129,6 +130,7 @@ class Post < ActiveRecord::Base
     scope :nice, -> { where("upvotes > ?", 5) }
 end
 ```
+
 And let’s look what happens when we call it
 ```
 :001> Post.select(:upvotes)
