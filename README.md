@@ -9,7 +9,7 @@ First thing I want to talk is Indices. Database tables without indices will degr
 The more records added to the table, the more the database engine will have to look through to find what it’s looking for.
   Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it.
 When you add indices to your tables, the application gains performance without having to alter any model code.
-For example, imagine you’re fetching the comments associated with a post. If the post `has_many :comments` then the comments table will have a post_id column.
+For example, imagine you’re fetching the comments associated with a post. If the post <code>has_many :comments</code> then the comments table will have a post_id column.
 Adding an index on post_id will improve the speed of the query significantly.
 </p>
 <p>
