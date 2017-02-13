@@ -130,7 +130,6 @@ class Post < ActiveRecord::Base
     scope :nice, -> { where("upvotes > ?", 5) }
 end
 ```
-
 And let’s look what happens when we call it
 ```
 :001> Post.select(:upvotes)
