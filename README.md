@@ -9,8 +9,8 @@ First thing I want to talk is Indices. Database tables without indices will degr
 The more records added to the table, the more the database engine will have to look through to find what it’s looking for.
   Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it.
 When you add indices to your tables, the application gains performance without having to alter any model code.
-For example, imagine you’re fetching the comments associated with a post. If the post <code>has_many :comments</code> then the comments table will have a post_id column.
-Adding an index on post_id will improve the speed of the query significantly.
+For example, imagine you’re fetching the comments associated with a post. If the post <code>has_many :comments</code> then the comments table will have a <code>post_id</code> column.
+Adding an index on <code>post_id</code> will improve the speed of the query significantly.
 </p>
 <p>
 Using Indices is pretty usefull and you can ask why an index isn’t added to every column since the performance for searching the table would be improved. Unfortunately,
@@ -26,7 +26,7 @@ Consider the comment model in a blogging application. The model has the followin
     <li> upvotes </li>
 </ul>
 
-It’s a pretty simple model, isn’t it. But let us add indeces, we can do it via migrations. Let create the indeces for field post_id and user_id, we can make it for every field
+It’s a pretty simple model, isn’t it. But let us add indeces, we can do it via migrations. Let create the indeces for field <code>post_id</code> and <code>user_id</code>, we can make it for every field
 </p>
 ```ruby
 AddIndecesToComment < ActiveRecord:Migration
@@ -116,7 +116,7 @@ Another thing I want to talk about is the Scopes. Probably most of us know about
 </p>
 <p>
 Scoping allows you to specify commonly-used queries which can be referenced as method calls on the association objects or models. With these scopes, you can use every method previously
-covered such as where, joins and includes. All scope methods will return an ActiveRecord::Relation object which will allow for further methods to be called on it.
+covered such as where, joins and includes. All scope methods will return an <code>ActiveRecord::Relation<?code> object which will allow for further methods to be called on it.
 </p>
 <p>
 Declaration scopes happen in the Model, just like that
@@ -146,12 +146,12 @@ It’s the simplest and the most elegant way of filtering in my opinion.
 But what if you want to use that scope for every single call?
 </p>
 <p>
-I have the answer - use default_scope!
+I have the answer - use <code>default_scope</code>!
 </p>
 <p>
 If an object is always going to load its child records, for example posts with included comments, a default_scope can be setup on the model. Then every query will be ready for loading
  the children.
-Continuing with our previous example, I suppose we always want the comments for a post to be loaded. Instead of having to remember to add include: :comments to all finder calls add the
+Continuing with our previous example, I suppose we always want the comments for a post to be loaded. Instead of having to remember to add <code>include: :comments</code> to all finder calls add the
  following to the Post model:
 </p>
 
