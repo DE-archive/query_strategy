@@ -154,6 +154,7 @@ If an object is always going to load its child records, for example posts with i
 Continuing with our previous example, I suppose we always want the comments for a post to be loaded. Instead of having to remember to add include: :comments to all finder calls add the
  following to the Post model:
  </p>
+
 ```ruby
 class Post < ActiveRecord::Base
     has_many :comments
@@ -164,6 +165,7 @@ class Post < ActiveRecord::Base
     default_scope include: {comments: :approval}
 end
 ```
+
 <p>
 After the above has been added to the model, Post.first will include the associated comments. Therefore, if you need that article’s comments, another database query is no longer necessary.
 </p>
