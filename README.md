@@ -41,3 +41,11 @@ AddIndecesToComment < ActiveRecord:Migration
 end
 ```
 Another way to improve the total time of a request is to reduce the number of queries being made. The includes query method is used to eager load the identified child records when the parent object is loaded. Let’s watch the development log as we interact with a post and its comments in the Rails console:
+```javascript
+:001> post = Post.first
+    Post Load (1.0ms)  SELECT  "posts".* FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
+=> #<Post id: 1, title: "New Post", upvotes: 0, created_at: "2017-01-21 10:13:13", updated_at: "2017-01-21 10:13:13", user_id: 1>
+:002> post.comments
+    Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1  [["post_id", 1]]
+=> #<ActiveRecord::Associations::CollectionProxy  [#<Comment id: 1, body: "Good Post", upvotes: 0, post_id: 1, created_at: "2017-01-22 16:44:13", updated_at: "2017-01-22 16:44:13", user: id: 15>
+```
