@@ -153,7 +153,7 @@ If an object is always going to load its child records, for example posts with i
  the children.
 Continuing with our previous example, I suppose we always want the comments for a post to be loaded. Instead of having to remember to add include: :comments to all finder calls add the
  following to the Post model:
- </p>
+</p>
 
 ```ruby
     class Post < ActiveRecord::Base
