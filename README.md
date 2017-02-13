@@ -116,7 +116,7 @@ Another thing I want to talk about is the Scopes. Probably most of us know about
 </p>
 <p>
 Scoping allows you to specify commonly-used queries which can be referenced as method calls on the association objects or models. With these scopes, you can use every method previously
-covered such as where, joins and includes. All scope methods will return an <code>ActiveRecord::Relation<?code> object which will allow for further methods to be called on it.
+covered such as where, joins and includes. All scope methods will return an <code>ActiveRecord::Relation</code> object which will allow for further methods to be called on it.
 </p>
 <p>
 Declaration scopes happen in the Model, just like that
