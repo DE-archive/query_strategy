@@ -138,9 +138,10 @@ end
 And the default scope will be ignored.
 In this article I described  a small  part of all the opportunities of ActiveRecord Querying  methods which help us to write fast and readable code. I hope this article was useful and interesting for you.
 
-
+<p align="right">
 Best regards,
 **Dmitry Gusev** Software developer Dunice Edge
 http://dunice.ru
 dmitriy.gusev@duniceedge.com
 Skype: edge.gusev
+</p?
