@@ -125,7 +125,7 @@ Declaration scopes happen in the Model, just like that
 ```ruby
 class Post < ActiveRecord::Base
     has_many :comments
-    belongs_to: user
+    belongs_to :user
 
     scope :nice, -> { where("upvotes > ?", 5) }
 end
@@ -137,7 +137,7 @@ And let’s look what happens when we call it
 => #<ActiveRecord::Relation  [#<Post id: nil, upvotes: 12>, <Post id: nil, upvotes: 0>, <Post id: nil, upvotes: 4>, <Post id: nil, upvotes: 31>]>
 :002> Post.nice.select(:upvotes)
     Post Load (0.6ms)  SELECT  "posts"."upvotes"  FROM "posts" WHERE (upvotes > 5)
-    => #<ActiveRecord::Relation  [#<Post id: nil, upvotes: 12>, <Post id: nil, upvotes: 31>]>
+=> #<ActiveRecord::Relation  [#<Post id: nil, upvotes: 12>, <Post id: nil, upvotes: 31>]>
 ```
 <p>
 It’s the simplest and the most elegant way of filtering in my opinion.
@@ -158,7 +158,7 @@ Continuing with our previous example, I suppose we always want the comments for 
 ```ruby
     class Post < ActiveRecord::Base
         has_many :comments
-        belongs_to: user
+        belongs_to :user
 
         scope :nice, -> { where("upvotes > ?", 5) }
 
