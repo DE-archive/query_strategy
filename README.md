@@ -41,7 +41,7 @@ AddIndecesToComment < ActiveRecord:Migration
 end
 ```
 Another way to improve the total time of a request is to reduce the number of queries being made. The includes query method is used to eager load the identified child records when the parent object is loaded. Let’s watch the development log as we interact with a post and its comments in the Rails console:
-```javascript
+```
 :001> post = Post.first
     Post Load (1.0ms)  SELECT  "posts".* FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
 => #<Post id: 1, title: "New Post", upvotes: 0, created_at: "2017-01-21 10:13:13", updated_at: "2017-01-21 10:13:13", user_id: 1>
@@ -51,7 +51,7 @@ Another way to improve the total time of a request is to reduce the number of qu
 ```
 
 The two instructions ran two separate queries. But if we use includes in the first query the following happens:
-```javascript
+```
 :001> post = Post.includes(:comments).first
     Post Load (0.7ms)  SELECT  "posts".* FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
     Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1  [["post_id", 1]]
@@ -60,21 +60,21 @@ The two instructions ran two separate queries. But if we use includes in the fir
 
 Only one instruction kicked off two queries, eager fetching both the article and its comments. There’s no performance gain when using includes so far. In fact, each query takes longer to process.
 Third way to reduce the total time of a request is to use select or pluck methods for taking only needed fields. Select is a pretty useful method and I guess all readers know how it works, but anyway I’d like to show you what it must return
-```javascript
+```
 :001> Post.select(:titile, :created_at)
     Post Load (0.4ms)  SELECT  "posts"."title", "posts"."created_at"  FROM "posts"
 => #<ActiveRecord::Relation  [#<Post id: nil, title: "New Post", created_at: created_at: "2017-01-21 10:13:13">, <Post id: nil, title: "Ruby Cool", created_at: created_at: "2017-01-21 10:16:16" >]>
 ```
 As far as you can see, select method’s returning ActiveRecord collection of instances, in our case Posts.
 Ok, now when you know how we can load particular fields from db, let’s look on the Pluck method. Use pluck as a shortcut to select one or more attributes without loading a bunch of records just to grab the attributes you want.
-```javascript
+```
 :001> Post.pluck(:title)
     Post Load (0.2ms)  SELECT  "posts"."title"  FROM "posts"
 => ["New Post", "Ruby Cool"]
 ```
 
 You may have a question: “What if we want to load more than one field?”
-```javascript
+```
 :001> Post.pluck(:title, :created_at)
     Post Load (0.2ms)  SELECT  "posts"."title", "posts"."created_at"  FROM "posts"
 => [["New Post", Sat, 21 Jan 2017 10:13:13 UTC +00:00], ["Ruby Cool", Sat, 21 Jan 2017 10:16:16 UTC +00:00]]
@@ -93,7 +93,7 @@ class Post < ActiveRecord::Base
 end
 ```
 And let’s look what happens when we call it
-```javascript
+```
 :001> Post.select(:upvotes)
      Post Load (2.4ms)  SELECT  "posts"."upvotes"  FROM "posts"
 => #<ActiveRecord::Relation  [#<Post id: nil, upvotes: 12>, <Post id: nil, upvotes: 0>, <Post id: nil, upvotes: 4>, <Post id: nil, upvotes: 31>]>
@@ -117,7 +117,7 @@ class Post < ActiveRecord::Base
 end
 ```
 After the above has been added to the model, Post.first will include the associated comments. Therefore, if you need that article’s comments, another database query is no longer necessary.
-```javascript
+```
 :001> Post.first
      Post Load (2.4ms)  SELECT  "posts".*  FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
      Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE "comments"."post_id" IN (1)
