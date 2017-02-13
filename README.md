@@ -198,8 +198,8 @@ In this article I described  a small  part of all the opportunities of ActiveRec
  interesting for you.
 </p>
 
-<p align="right">Best regards,</p>
-<p align="right">**Dmitry Gusev** Software developer Dunice Edge</p>
-<p align="right">http://dunice.ru</p>
-<p align="right">dmitriy.gusev@duniceedge.com</p>
-<p align="right">Skype: edge.gusev</p>
+<div align="right">Best regards,</div>
+<div align="right">**Dmitry Gusev** Software developer Dunice Edge</div>
+<div align="right">http://dunice.ru</div>
+<div align="right">dmitriy.gusev@duniceedge.com</div>
+<div align="right">Skype: edge.gusev</div>
