@@ -19,12 +19,14 @@
 </p>
 <p>
     Consider the comment model in a blogging application. The model has the following fields:
-    * post_id
-    * user_id
-    * body
-    * upvotes
-
+    <ul>
+        <li> post_id </li>
+        <li> user_id </li>
+        <li> body </li>
+        <li> upvotes </li>
+    <ul>
     It’s a pretty simple model, isn’t it. But let us add indeces, we can do it via migrations. Let create the indeces for field post_id and user_id, we can make it for every field
+</p>
     ```ruby
     AddIndecesToComment < ActiveRecord:Migration
         def change
@@ -49,10 +51,11 @@
         end
     end
     ```
-</p>
+
 <p>
     Another way to improve the total time of a request is to reduce the number of queries being made. The includes query method is used to eager load the identified child records when the
     parent object is loaded. Let’s watch the development log as we interact with a post and its comments in the Rails console:
+</p>
     ```
     :001> post = Post.first
         Post Load (1.0ms)  SELECT  "posts".* FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
@@ -61,16 +64,17 @@
         Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1  [["post_id", 1]]
     => #<ActiveRecord::Associations::CollectionProxy  [#<Comment id: 1, body: "Good Post", upvotes: 0, post_id: 1, created_at: "2017-01-22 16:44:13", updated_at: "2017-01-22 16:44:13", user: id: 15>
     ```
-</p>
+
 <p>
     The two instructions ran two separate queries. But if we use includes in the first query the following happens:
+</p>
     ```
     :001> post = Post.includes(:comments).first
         Post Load (0.7ms)  SELECT  "posts".* FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
         Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1  [["post_id", 1]]
     => #<Post id: 1, title: "New Post", upvotes: 0, created_at: "2017-01-21 10:13:13", updated_at: "2017-01-21 10:13:13", user_id: 1>
     ```
-</p>
+
 <p>
     Only one instruction kicked off two queries, eager fetching both the article and its comments. There’s no performance gain when using includes so far.
     In fact, each query takes longer to process.
@@ -78,12 +82,13 @@
 <p>
     Third way to reduce the total time of a request is to use select or pluck methods for taking only needed fields. Select is a pretty useful method and I guess all readers know how it works,
      but anyway I’d like to show you what it must return
+ </p>
     ```
     :001> Post.select(:titile, :created_at)
         Post Load (0.4ms)  SELECT  "posts"."title", "posts"."created_at"  FROM "posts"
     => #<ActiveRecord::Relation  [#<Post id: nil, title: "New Post", created_at: created_at: "2017-01-21 10:13:13">, <Post id: nil, title: "Ruby Cool", created_at: created_at: "2017-01-21 10:16:16" >]>
     ```
-</p>
+
 <p>
     As far as you can see, select method’s returning ActiveRecord collection of instances, in our case Posts.
 </p>
@@ -117,6 +122,7 @@
 </p>
 <p>
     Declaration scopes happen in the Model, just like that
+</p>
     ```ruby
     class Post < ActiveRecord::Base
         has_many :comments
@@ -134,7 +140,7 @@
         Post Load (0.6ms)  SELECT  "posts"."upvotes"  FROM "posts" WHERE (upvotes > 5)
         => #<ActiveRecord::Relation  [#<Post id: nil, upvotes: 12>, <Post id: nil, upvotes: 31>]>
     ```
-</p>
+
 <p>
     It’s the simplest and the most elegant way of filtering in my opinion.
 </p>
@@ -149,6 +155,7 @@
      the children.
     Continuing with our previous example, I suppose we always want the comments for a post to be loaded. Instead of having to remember to add include: :comments to all finder calls add the
      following to the Post model:
+ </p>
     ```ruby
     class Post < ActiveRecord::Base
         has_many :comments
@@ -159,22 +166,22 @@
         default_scope include: {comments: :approval}
     end
     ```
-</p>
 <p>
     After the above has been added to the model, Post.first will include the associated comments. Therefore, if you need that article’s comments, another database query is no longer necessary.
+</p>
     ```
     :001> Post.first
          Post Load (2.4ms)  SELECT  "posts".*  FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
          Comment Load (0.4ms)  SELECT "comments".* FROM "comments" WHERE "comments"."post_id" IN (1)
     => #<Post id: 1, title: "New Post", upvotes: 0, created_at: "2017-01-21 10:13:13", updated_at: "2017-01-21 10:13:13", user_id: 1>
     ```
-</p>
+
 <p>
     It’s really nice, isn’t it? With default scope I don’t have to write the ordering in the controller or model methods for every action, it’s great!
 </p>
 <p>
     But obviously in a few cases we should remove our including comments, you can call unscoped method for that
-
+</p>
     ```ruby
     class PostController < AplicationController
 
@@ -184,7 +191,6 @@
 
     end
     ```
-</p>
 <p>
     And the default scope will be ignored.
 </p>
