@@ -25,6 +25,7 @@ Consider the comment model in a blogging application. The model has the followin
     <li> body </li>
     <li> upvotes </li>
 <ul>
+
 It’s a pretty simple model, isn’t it. But let us add indeces, we can do it via migrations. Let create the indeces for field post_id and user_id, we can make it for every field
 </p>
 ```ruby
