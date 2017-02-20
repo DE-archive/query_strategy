@@ -3,7 +3,7 @@
 Sometimes folks become confused when trying to perform a complicated query to the SQL-database. In most of cases, it takes lots of time and that output query string looks pretty ugly. In this article I'd like to describe best ways of querying and formatting our code to make it easier for reading and faster for retrieving the data.
 
 
-Things first, database performance is all about Indices. Database tables without indices will degrade in performance as more records get added to them over time. The more records added to the table, the more the database engine will have to look through to find what it’s actually looking for. Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it. When you add indices to your tables, the application gains performance without having to alter any model code. For example, imagine you’re fetching the comments associated with a post. If the post `has_many :comments` then the comments table will have a `post_id` column. Adding an index on `post_id` will improve the speed of the query significantly. **NOTICE: need prove. Benchmarking!**
+Things first, database performance is all about `Indices`. Database tables without indices will degrade in performance as more records get added to them over time. The more records added to the table, the more the database engine will have to look through to find what it’s actually looking for. Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it. When you add indices to your tables, the application gains performance without having to alter any model code. For example, imagine you’re fetching the comments associated with a post. If the post `has_many :comments` then the comments table will have a `post_id` column. Adding an index on `post_id` will improve the speed of the query significantly. **NOTICE: need prove. Benchmarking!**
 
 
 Using Indices is pretty useful and you can ask why an index isn’t added to every column since the performance for searching the table would be improved. Unfortunately, indices don’t come easily. Each insert to the table will incude extra processing to maintain the index. For this reason, indices should only be added to columns that are actually queried in the application.
@@ -120,7 +120,7 @@ And let’s look what happens when we call it
 It’s the simplest and the most elegant way of filtering in my opinion.
 
 
-But what if you want to use that scope for every single call?
+But what if you want to use that `:scope` for every single call?
 
 
 I have the answer - use `:default_scope`!
@@ -171,6 +171,7 @@ In this article I described a small part of all the opportunities of ActiveRecor
 
 <div align="right">Best regards,</div>
 <div align="right"> <b>Dmitry Gusev</b> Software developer Dunice Edge </div>
+<div align="right">@DmitriyGusev</div>
 <div align="right">http://dunice.ru</div>
 <div align="right">dmitriy.gusev@duniceedge.com</div>
 <div align="right">Skype: edge.gusev</div>
