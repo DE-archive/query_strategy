@@ -3,7 +3,7 @@
 Sometimes folks become confused when trying to perform a complicated query to the SQL-database. In most of cases, it takes lots of time and that output query string looks pretty ugly. In this article I'd like to describe best ways of querying and formatting our code to make it easier for reading and faster for retrieving the data.
 
 
-Things first, database performance is all about `Indices`. Database tables without indices will degrade in performance as more records get added to them over time. The more records added to the table, the more the database engine will have to look through to find what it’s actually looking for. Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it. When you add indices to your tables, the application gains performance without having to alter any model code. For example, imagine you’re fetching the comments associated with a post. If the post `has_many :comments` then the comments table will have a `post_id` column. Adding an index on `post_id` will improve the speed of the query significantly. **NOTICE: need prove. Benchmarking!**
+Things first, database performance is all about `Indices`. Database tables without indices will degrade in performance as more records get added to them over time. The more records added to the table, the more the database engine will have to look through to find what it’s actually looking for. Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it. When you add indices to your tables, the application gains performance without having to alter any model code. For example, imagine you’re fetching the comments associated with a post. If the post `has_many :comments` then the comments table will have a `:post_id` column. Adding an index on `:post_id` will improve the speed of the query significantly. **NOTICE: need prove. Benchmarking!**
 
 
 Using Indices is pretty useful and you can ask why an index isn’t added to every column since the performance for searching the table would be improved. Unfortunately, indices don’t come easily. Each insert to the table will incude extra processing to maintain the index. For this reason, indices should only be added to columns that are actually queried in the application.
@@ -20,19 +20,19 @@ It’s a pretty simple model, isn’t it? However, let us add some indices, usin
 
 ```ruby
 class AddIndicesToComment < ActiveRecord::Migration
-    def change
-        add_index :comments, :post_id
-        add_index :comments, :user_id
-    end
+  def change
+    add_index :comments, :post_id
+    add_index :comments, :user_id
+  end
 end
 ```
 or even in one string:
 ```ruby
-    add_index :comments, [:post_id, :user_id]
+add_index :comments, [:post_id, :user_id]
 ```
 Eventually, there's a preferrable way to use references with initial index for creating connection between them:
 ```ruby
-    add_reference :comments, :post, index: true
+add_reference :comments, :post, index: true
 ```
 
 Another way to speed up the total time of a request is to reduce the number of queries being made. The includes query method is used to eager load the identified child records when the parent object is loaded. Let’s watch through the development log as we interact with a post and its comments in the Rails console:
@@ -101,10 +101,10 @@ Declaration scopes happen in the Model, just like that
 
 ```ruby
 class Post < ActiveRecord::Base
-    has_many :comments
-    belongs_to :user
+  has_many :comments
+  belongs_to :user
 
-    scope :nice, -> { where("upvotes > ?", 5) }
+  scope :nice, -> { where("upvotes > ?", 5) }
 end
 ```
 And let’s look what happens when we call it
@@ -131,12 +131,12 @@ If an object is always going to load its child records, for example posts with i
 
 ```ruby
 class Post < ActiveRecord::Base
-    has_many :comments
-    belongs_to :user
+  has_many :comments
+  belongs_to :user
 
-    scope :nice, -> { where("upvotes > ?", 5) }
+  scope :nice, -> { where("upvotes > ?", 5) }
 
-    default_scope include: {comments: :approval}
+  default_scope include: {comments: :approval}
 end
 ```
 
@@ -149,7 +149,7 @@ After the above has been added to the model, `Post.first` will include the assoc
 => #<Post id: 1, title: "New Post", upvotes: 0, created_at: "2017-01-21 10:13:13", updated_at: "2017-01-21 10:13:13", user_id: 1>
 ```
 
-Looks much better, isn’t it? With `:default scope` we don’t have to write the ordering in the controller or model methods for every action, that's awesome!
+Looks much better, isn’t it? With `:default_scope` we don’t have to write the ordering in the controller or model methods for every action, that's awesome!
 
 
 But obviously in some cases we should remove our including comments, you can call unscoped method for that
@@ -157,9 +157,9 @@ But obviously in some cases we should remove our including comments, you can cal
 ```ruby
 class PostController < AplicationController
 
-    def some_action_where_we_no_need_comments
-        @posts = Post.unscoped.all
-    end
+  def some_action_where_we_no_need_comments
+      @posts = Post.unscoped.all
+  end
 
 end
 ```
