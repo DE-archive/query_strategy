@@ -35,7 +35,7 @@ Eventually, there's a preferrable way to use references with initial index for c
 add_reference :comments, :post, index: true
 ```
 
-Another way to speed up the total time of a request is to reduce the number of queries being made. The includes query method is used to eager load the identified child records when the parent object is loaded. Let’s watch through the development log as we interact with a post and its comments in the `Rails console`:
+Another way to speed up the total time of a request is to reduce the number of queries being made. The includes query method is used to eager load the identified child records when the parent object is loaded. Let’s watch through the development log as we interact with a post and its comments in the *Rails console*:
 
 ```
 :001> post = Post.first
@@ -66,7 +66,7 @@ Third way to reduce the total time of a request is to use `:select` or `:pluck` 
 => #<ActiveRecord::Relation  [#<Post id: nil, title: "New Post", created_at: created_at: "2017-01-21 10:13:13">, <Post id: nil, title: "Ruby Cool", created_at: created_at: "2017-01-21 10:16:16" >]>
 ```
 
-As far as you can see, `:select` method’s returning `ActiveRecord` collection of instances, in our case Posts.
+As far as you can see, `:select` method’s returning *ActiveRecord* collection of instances, in our case Posts.
 
 Ok, now when you know how we can load particular fields from db, let’s look on the `:pluck` method. Use `:pluck` as a shortcut to select one or more attributes without loading a bunch of records just to grab the attributes you want.
 
@@ -87,17 +87,17 @@ You may have a question: “What if we want to load more than one field?”
 
 In that case `:pluck` returns array of selected fields, which, in my opinion, is not very useful and I’ve never used `:pluck` for loading more than one field.
 
-So...the main difference between `:select` and `:pluck` is output, `:select` returns is `ActiveRecord` collection of instances which includes only selected fields, and you can use `ActiveRecord` methods for work with it, `:pluck` method returns simple ruby array of selected field, or array of arrays if you choose more than one filed.
+So...the main difference between `:select` and `:pluck` is output, `:select` returns is *ActiveRecord* collection of instances which includes only selected fields, and you can use `ActiveRecord` methods for work with it, `:pluck` method returns simple ruby array of selected field, or array of arrays if you choose more than one filed.
 
-Another thing I want to talk about is `Scopes` **NOTICE: use highlighing! read .MD docs.**. Probably most of us know about that super useful and elegant feature, however, I saw relatively huge projects that was not using that and having complicated pieces of code instead. So … let me explain what scoping actually is.
-
-
-Scoping allows you to specify commonly-used queries which can be referenced as method calls on the association objects or models. With these scopes, you can use every method previously covered such as `:where`, `:joins` and `:includes`. All scope methods will return an `ActiveRecord::Relation` object which will allow for further methods to be called on it.
+Another thing I want to talk about is *Scopes*. Probably most of us know about that super useful and elegant feature, however, I saw relatively huge projects that was not using that and having complicated pieces of code instead. So … let me explain what scoping actually is.
 
 
+Scoping allows you to specify commonly-used queries which can be referenced as method calls on the association objects or models. With these scopes, you can use every method previously covered such as `:where`, `:joins` and `:includes`. All scope methods will return an *ActiveRecord::Relation* object which will allow for further methods to be called on it.
 
 
-Declaration scopes happen in the Model, just like that
+
+
+Declaration scopes happen in the *Model*, just like that
 
 ```ruby
 class Post < ActiveRecord::Base
@@ -124,7 +124,7 @@ But what if you want to use that `:scope` for every single call?
 
 
 I have the answer - use `:default_scope`!
-If an object is always going to load its child records, for example posts with included comments, a `:default_scope` can be set up for the particular model. Then every query will be ready to load record's children. Continuing with our previous example, I suppose we always want the comments for a post to be loaded. Instead of having to remember to add `include: :comments` to all finder calls add the following to the Post model:
+If an object is always going to load its child records, for example posts with included comments, a `:default_scope` can be set up for the particular model. Then every query will be ready to load record's children. Continuing with our previous example, I suppose we always want the comments for a post to be loaded. Instead of having to remember to add `include: :comments` to all finder calls add the following to the *Post* model:
 
 
 
