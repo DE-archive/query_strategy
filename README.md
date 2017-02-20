@@ -176,7 +176,7 @@ After the above has been added to the model, `Post.first` will include the assoc
 Looks much better, isn’t it? With `:default_scope` we don’t have to write the ordering in the controller or model methods for every action, that's awesome!
 
 
-But obviously in some cases we should remove our including comments, you can call unscoped method for that
+But obviously in some cases we should remove our including comments, for that you can call `:unscoped` method like that
 
 ```ruby
 class PostController < AplicationController
