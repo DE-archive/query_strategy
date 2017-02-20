@@ -173,8 +173,6 @@ Best regards,
 
 *Dmitry Gusev* Software developer Dunice Edge
 
-@duniceedge
-
 http://dunice.ru
 
 dmitriy.gusev@duniceedge.com
