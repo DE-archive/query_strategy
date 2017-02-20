@@ -66,7 +66,7 @@ Third way to reduce the total time of a request is to use select or pluck method
 => #<ActiveRecord::Relation  [#<Post id: nil, title: "New Post", created_at: created_at: "2017-01-21 10:13:13">, <Post id: nil, title: "Ruby Cool", created_at: created_at: "2017-01-21 10:16:16" >]>
 ```
 
-As far as you can see, select method’s returning ActiveRecord collection of instances, in our case Posts.
+As far as you can see, select method’s returning `ActiveRecord` collection of instances, in our case Posts.
 
 Ok, now when you know how we can load particular fields from db, let’s look on the `:pluck` method. Use `:pluck` as a shortcut to select one or more attributes without loading a bunch of records just to grab the attributes you want.
 
@@ -85,7 +85,9 @@ You may have a question: “What if we want to load more than one field?”
 ```
 
 
-In that case pluck will return array of selected fields, which, in my opinion, is not very useful and I’ve never used pluck for loading more than one field. ***NOTICE: I got the difference between pluck and select here but from text description, it's still not clear. Fix!***
+In that case pluck will return array of selected fields, which, in my opinion, is not very useful and I’ve never used pluck for loading more than one field.
+
+So...the main difference between `:select` and `:pluck` is output, `:select` returns is `ActiveRecord` collection of instances which includes only selected fields, and you can use `ActiveRecord` methods for work with it, `:pluck` method returns simple ruby array of selected field, or array of arrays if you choose more than one filed.
 
 Another thing I want to talk about is Scopes **NOTICE: use highlighing! read .MD docs.**. Probably most of us know about that super useful and elegant feature, however, I saw relatively huge projects that was not using that and having complicated pieces of code instead. So … let me explain what scoping actually is.
 
