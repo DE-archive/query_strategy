@@ -3,8 +3,32 @@
 Sometimes folks become confused when trying to perform a complicated query to the SQL-database. In most of cases, it takes lots of time and that output query string looks pretty ugly. In this article I'd like to describe best ways of querying and formatting our code to make it easier for reading and faster for retrieving the data.
 
 
-Things first, database performance is all about `Indices`. Database tables without indices will degrade in performance as more records get added to them over time. The more records added to the table, the more the database engine will have to look through to find what it’s actually looking for. Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it. When you add indices to your tables, the application gains performance without having to alter any model code. For example, imagine you’re fetching the comments associated with a post. If the post `has_many :comments` then the comments table will have a `:post_id` column. Adding an index on `:post_id` will improve the speed of the query significantly. **NOTICE: need prove. Benchmarking!**
+Things first, database performance is all about `Indices`. Database tables without indices will degrade in performance as more records get added to them over time. The more records added to the table, the more the database engine will have to look through to find what it’s actually looking for. Adding an index to a table will ensure consistent long-term performance in querying against the table even as many thousands of records get added to it. When you add indices to your tables, the application gains performance without having to alter any model code. For example, imagine you’re fetching the comments associated with a post. If the post `has_many :comments` then the comments table will have a `:post_id` column. Adding an index on `:post_id` will improve the speed of the query significantly.
 
+I want to use **Benchmarking** for prove my words.
+
+I've created 100000 comments for one post and I'll try to take all comments related to post with index in database and without it.
+
+Result with index:
+
+```
+:001> Benchmark.measure { Post.first.comments }
+    Post Load (0.5ms)  SELECT  "posts".* FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
+    Comment Load (18.6ms)  SELECT "comments".* FROM "comments" WHERE "comments"."post_id" IN (1)
+     => #<Benchmark::Tms:0x00000014492140 @label="", @real=3.2746257329708897, @cstime=0.0, @cutime=0.0, @stime=0.08, @utime=3.02, @total=3.1>
+```
+
+Result without index:
+
+```
+:001> Benchmark.measure { Post.first.comments }
+    Post Load (0.6ms)  SELECT  "posts".* FROM "posts"  ORDER BY "posts"."id" ASC LIMIT 1
+    Comment Load (192.9ms)  SELECT "comments".* FROM "comments" WHERE "comments"."post_id" IN (1)
+    => #<Benchmark::Tms:0x0000001cd43cc8 @label="", @real=4.040568878990598, @cstime=0.0, @cutime=0.0, @stime=0.03, @utime=3.8499999999999996, @total=3.8799999999999994>
+```
+
+Let compare our a little rounded results, in first case, where we made a call with indeces it spent about 3.27463sec, in second case, where we made a call without indeces it spent about 4.04057sec. So you can see that difference in 0.76594sec.
+As you can see in our simple case with posts and comments it's not big difference, but just imagine, how it can improve speed of query for more complicated tables.
 
 Using Indices is pretty useful and you can ask why an index isn’t added to every column since the performance for searching the table would be improved. Unfortunately, indices don’t come easily. Each insert to the table will incude extra processing to maintain the index. For this reason, indices should only be added to columns that are actually queried in the application.
 
