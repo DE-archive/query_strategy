@@ -140,7 +140,7 @@ class Post < ActiveRecord::Base
 end
 ```
 
-After the above has been added to the model, Post.first will include the associated comments. Therefore, if you need that article’s comments, another database query is no longer necessary.
+After the above has been added to the model, `Post.first` will include the associated comments. Therefore, if you need that article’s comments, another database query is no longer necessary.
 
 ```
 :001> Post.first
