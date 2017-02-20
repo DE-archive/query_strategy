@@ -169,9 +169,14 @@ And the `:default scope` will be ignored.
 
 In this article I described a small part of all the opportunities of ActiveRecord Querying methods which can help us to write fast and readable code. Hopefully you'd find that helpful!
 
-<div align="right">Best regards,</div>
-<div align="right"> <b>Dmitry Gusev</b> Software developer Dunice Edge </div>
-<div align="right">@DmitriyGusev</div>
-<div align="right">http://dunice.ru</div>
-<div align="right">dmitriy.gusev@duniceedge.com</div>
-<div align="right">Skype: edge.gusev</div>
+Best regards,
+
+*Dmitry Gusev* Software developer Dunice Edge
+
+@DmitriyGysev
+
+http://dunice.ru
+
+dmitriy.gusev@duniceedge.com
+
+Skype: edge.gusev
